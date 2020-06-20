@@ -1,0 +1,20 @@
+dn: ou=people,dc=example,dc=org
+objectClass: organizationalUnit
+ou: People
+
+dn: cn=gustavomcarmo,ou=people,dc=example,dc=org
+givenName: Gustavo
+sn: Muniz do Carmo
+cn: gustavomcarmo
+uid: gustavomcarmo
+userPassword: S3cr3t
+mail: gustavomcarmo@example.org
+l: Lisbon
+st: PT
+gidNumber: 5000
+uidNumber: 10000
+homeDirectory: /home/users/gustavomcarmo
+loginShell: /bin/sh
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top

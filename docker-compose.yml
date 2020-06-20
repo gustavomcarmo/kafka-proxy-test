@@ -1,0 +1,89 @@
+version: '2'
+services:
+
+  zookeeper:
+    image: bitnami/zookeeper
+    container_name: zookeeper
+    volumes:
+      - zookeeper_data:/bitnami/zookeeper
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+
+  kafka-0:
+    image: bitnami/kafka
+    container_name: kafka-0
+    volumes:
+      - kafka-0_data:/bitnami/kafka
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka-0:9092
+      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+    depends_on:
+      - zookeeper
+
+  kafka-1:
+    image: bitnami/kafka
+    container_name: kafka-1
+    volumes:
+      - kafka-1_data:/bitnami/kafka
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka-1:9092
+      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+    depends_on:
+      - zookeeper
+
+  kafka-2:
+    image: bitnami/kafka
+    container_name: kafka-2
+    volumes:
+      - kafka-2_data:/bitnami/kafka
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka-2:9092
+      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+    depends_on:
+      - zookeeper
+
+  kafka-proxy:
+    build: .
+    image: gustavomcarmo/kafka-proxy
+    container_name: kafka-proxy
+    ports:
+      - 9080:9080
+      - 32400:32400
+      - 32401:32401
+      - 32402:32402
+    command:
+      - server
+      - --bootstrap-server-mapping=kafka-0:9092,0.0.0.0:32400,localhost:32400
+      - --bootstrap-server-mapping=kafka-1:9092,0.0.0.0:32401,localhost:32401
+      - --bootstrap-server-mapping=kafka-2:9092,0.0.0.0:32402,localhost:32402
+      - --dynamic-listeners-disable
+      # - --auth-local-enable
+      # - --auth-local-command=/auth-ldap
+      # - --auth-local-param=--url=ldap://openldap:389
+      # - --auth-local-param=--user-dn=ou=people,dc=example,dc=org
+      # - --auth-local-param=--user-attr=uid
+    depends_on:
+      - kafka-0
+      - kafka-1
+      - kafka-2
+
+  openldap:
+    image: osixia/openldap
+    container_name: openldap
+    volumes:
+      - .ldif:/.ldif
+    environment:
+      - LDAP_SEED_INTERNAL_LDIF_PATH=/.ldif
+      - LDAP_TLS=false
+
+volumes:
+  zookeeper_data:
+  kafka-0_data:
+  kafka-1_data:
+  kafka-2_data:
