@@ -10,7 +10,7 @@
 
 `curl -Ls https://mirrors.up.pt/pub/apache/kafka/2.5.0/kafka_2.12-2.5.0.tgz | tar xz`
 
-## No auth test
+### No auth test
 
 Comment in [docker-compose.yml](docker-compose.yml):
 
@@ -38,7 +38,7 @@ To consume the message:
 
 `kafka_2.12-2.5.0/bin/kafka-console-consumer.sh --bootstrap-server localhost:32400,localhost:32401,localhost:32402 --topic test --from-beginning --max-messages 1`
 
-## LDAP auth test
+### LDAP auth test
 
 Uncomment in [docker-compose.yml](docker-compose.yml):
 
