@@ -58,43 +58,15 @@ To produce a single message:
 
 `echo "Hello, World!" | kafka_2.12-2.5.0/bin/kafka-console-producer.sh --bootstrap-server localhost:32400,localhost:32401,localhost:32402 --producer.config client.properties --topic test`
 
-Current error:
+Current error in Kafka client:
 
+```txt
+>[2020-06-23 15:19:00,697] WARN [Producer clientId=console-producer] Connection to node -1 (localhost/127.0.0.1:32400) terminated during authentication. This may happen due to any of the following reasons: (1) Authentication failed due to invalid credentials with brokers older than 1.0.0, (2) Firewall blocking Kafka TLS traffic (eg it may only allow HTTPS traffic), (3) Transient network issue. (org.apache.kafka.clients.NetworkClient)
 ```
->[2020-06-20 10:45:05,775] WARN [Producer clientId=console-producer] Error connecting to node localhost:32400 (id: -1 rack: null) (org.apache.kafka.clients.NetworkClient)
-java.io.IOException: Channel could not be created for socket java.nio.channels.SocketChannel[closed]
-        at org.apache.kafka.common.network.Selector.buildAndAttachKafkaChannel(Selector.java:348)
-        at org.apache.kafka.common.network.Selector.registerChannel(Selector.java:329)
-        at org.apache.kafka.common.network.Selector.connect(Selector.java:256)
-        at org.apache.kafka.clients.NetworkClient.initiateConnect(NetworkClient.java:957)
-        at org.apache.kafka.clients.NetworkClient.access$600(NetworkClient.java:73)
-        at org.apache.kafka.clients.NetworkClient$DefaultMetadataUpdater.maybeUpdate(NetworkClient.java:1128)
-        at org.apache.kafka.clients.NetworkClient$DefaultMetadataUpdater.maybeUpdate(NetworkClient.java:1016)
-        at org.apache.kafka.clients.NetworkClient.poll(NetworkClient.java:547)
-        at org.apache.kafka.clients.producer.internals.Sender.runOnce(Sender.java:324)
-        at org.apache.kafka.clients.producer.internals.Sender.run(Sender.java:239)
-        at java.lang.Thread.run(Thread.java:748)
-Caused by: org.apache.kafka.common.KafkaException: org.apache.kafka.common.errors.SaslAuthenticationException: Failed to configure SaslClientAuthenticator
-        at org.apache.kafka.common.network.SaslChannelBuilder.buildChannel(SaslChannelBuilder.java:228)
-        at org.apache.kafka.common.network.Selector.buildAndAttachKafkaChannel(Selector.java:338)
-        ... 10 more
-Caused by: org.apache.kafka.common.errors.SaslAuthenticationException: Failed to configure SaslClientAuthenticator
-Caused by: org.apache.kafka.common.KafkaException: Principal could not be determined from Subject, this may be a transient failure due to Kerberos re-login
-        at org.apache.kafka.common.security.authenticator.SaslClientAuthenticator.firstPrincipal(SaslClientAuthenticator.java:579)
-        at org.apache.kafka.common.security.authenticator.SaslClientAuthenticator.<init>(SaslClientAuthenticator.java:171)
-        at org.apache.kafka.common.network.SaslChannelBuilder.buildClientAuthenticator(SaslChannelBuilder.java:274)
-        at org.apache.kafka.common.network.SaslChannelBuilder.lambda$buildChannel$1(SaslChannelBuilder.java:216)
-        at org.apache.kafka.common.network.KafkaChannel.<init>(KafkaChannel.java:143)
-        at org.apache.kafka.common.network.SaslChannelBuilder.buildChannel(SaslChannelBuilder.java:224)
-        at org.apache.kafka.common.network.Selector.buildAndAttachKafkaChannel(Selector.java:338)
-        at org.apache.kafka.common.network.Selector.registerChannel(Selector.java:329)
-        at org.apache.kafka.common.network.Selector.connect(Selector.java:256)
-        at org.apache.kafka.clients.NetworkClient.initiateConnect(NetworkClient.java:957)
-        at org.apache.kafka.clients.NetworkClient.access$600(NetworkClient.java:73)
-        at org.apache.kafka.clients.NetworkClient$DefaultMetadataUpdater.maybeUpdate(NetworkClient.java:1128)
-        at org.apache.kafka.clients.NetworkClient$DefaultMetadataUpdater.maybeUpdate(NetworkClient.java:1016)
-        at org.apache.kafka.clients.NetworkClient.poll(NetworkClient.java:547)
-        at org.apache.kafka.clients.producer.internals.Sender.runOnce(Sender.java:324)
-        at org.apache.kafka.clients.producer.internals.Sender.run(Sender.java:239)
-        at java.lang.Thread.run(Thread.java:748)
+
+Current error in kafka-proxy:
+
+```txt
+time="2020-06-23T14:19:00Z" level=info msg="New connection for kafka-0:9092"
+time="2020-06-23T14:19:00Z" level=info msg="Reading data from local connection on 172.22.0.6:32400 from 172.22.0.1:48498 (kafka-0:9092) had error: SaslAuthenticate version 0 or 1 is expected, apiVersion 2"
 ```

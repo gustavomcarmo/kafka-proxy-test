@@ -63,11 +63,12 @@ services:
       - --bootstrap-server-mapping=kafka-1:9092,0.0.0.0:32401,localhost:32401
       - --bootstrap-server-mapping=kafka-2:9092,0.0.0.0:32402,localhost:32402
       - --dynamic-listeners-disable
-      # - --auth-local-enable
-      # - --auth-local-command=/auth-ldap
-      # - --auth-local-param=--url=ldap://openldap:389
-      # - --auth-local-param=--user-dn=ou=people,dc=example,dc=org
-      # - --auth-local-param=--user-attr=uid
+      - --auth-local-enable
+      - --auth-local-command=/auth-ldap
+      - --auth-local-param=--start-tls=false
+      - --auth-local-param=--url=ldap://openldap:389
+      - --auth-local-param=--user-dn=ou=people,dc=example,dc=org
+      - --auth-local-param=--user-attr=cn
     depends_on:
       - kafka-0
       - kafka-1

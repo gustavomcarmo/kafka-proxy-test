@@ -1,6 +1,7 @@
 FROM golang:1.14 as builder
 WORKDIR /go/src/github.com/grepplabs/kafka-proxy
-RUN git clone https://github.com/grepplabs/kafka-proxy --branch v0.2.3 . \
+RUN git clone https://github.com/grepplabs/kafka-proxy . \
+    && git fetch origin 21f0ff9964772af5263fb17e184ffac143406d61 \
     && make clean build plugin.auth-ldap
 
 FROM alpine:3.11
