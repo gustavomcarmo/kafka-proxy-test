@@ -70,3 +70,23 @@ Current error in kafka-proxy:
 time="2020-06-23T14:19:00Z" level=info msg="New connection for kafka-0:9092"
 time="2020-06-23T14:19:00Z" level=info msg="Reading data from local connection on 172.22.0.6:32400 from 172.22.0.1:48498 (kafka-0:9092) had error: SaslAuthenticate version 0 or 1 is expected, apiVersion 2"
 ```
+
+#### LDAP auth test using Kafka client 2.3.0 (no errors)
+
+`curl -Ls https://mirrors.up.pt/pub/apache/kafka/2.3.0/kafka_2.12-2.3.0.tgz | tar xz`
+
+To list the topics:
+
+`kafka_2.12-2.3.0/bin/kafka-topics.sh --list --bootstrap-server localhost:32400,localhost:32401,localhost:32402 --command-config client.properties`
+
+To create the test topic:
+
+`kafka_2.12-2.3.0/bin/kafka-topics.sh --create --bootstrap-server localhost:32400,localhost:32401,localhost:32402 --replication-factor 3 --partitions 1 --topic test --command-config client.properties`
+
+To produce a single message:
+
+`echo "Hello, World!" | kafka_2.12-2.3.0/bin/kafka-console-producer.sh --broker-list localhost:32400,localhost:32401,localhost:32402 --topic test --producer.config client.properties`
+
+To consume the message:
+
+`kafka_2.12-2.3.0/bin/kafka-console-consumer.sh --bootstrap-server localhost:32400,localhost:32401,localhost:32402 --topic test --from-beginning --max-messages 2 --consumer.config client.properties`
