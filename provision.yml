@@ -1,0 +1,20 @@
+---
+- hosts: default
+  gather_facts: false
+
+  tasks:
+    - name: Copy required files
+      copy:
+        src: "{{ item }}"
+        dest: .
+      loop:
+        - Dockerfile
+        - docker-compose.yml
+        - .ldif
+
+    - name: Set up the Docker services
+      docker_compose:
+        project_name: kafka
+        project_src: .
+        state: present
+      become: true
