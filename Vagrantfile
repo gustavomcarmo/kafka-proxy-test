@@ -11,6 +11,7 @@ Vagrant.configure("2") do |config|
   config.vm.hostname = "kafka.example.org"
 
   config.vm.provider "virtualbox" do |v|
+    v.memory = "8192"
     v.linked_clone = true
   end
 

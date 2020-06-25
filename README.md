@@ -89,4 +89,24 @@ To produce a single message:
 
 To consume the message:
 
-`kafka_2.12-2.3.0/bin/kafka-console-consumer.sh --bootstrap-server localhost:32400,localhost:32401,localhost:32402 --topic test --from-beginning --max-messages 2 --consumer.config client.properties`
+`kafka_2.12-2.3.0/bin/kafka-console-consumer.sh --bootstrap-server localhost:32400,localhost:32401,localhost:32402 --topic test --from-beginning --max-messages 1 --consumer.config client.properties`
+
+##### LDAP auth test using Kafka client 2.3.0 against VM
+
+`vagrant up`
+
+To list the topics:
+
+`kafka_2.12-2.3.0/bin/kafka-topics.sh --list --bootstrap-server kafka.example.org:32400,kafka.example.org:32401,kafka.example.org:32402 --command-config client.properties`
+
+To create the test topic:
+
+`kafka_2.12-2.3.0/bin/kafka-topics.sh --create --bootstrap-server kafka.example.org:32400,kafka.example.org:32401,kafka.example.org:32402 --replication-factor 3 --partitions 1 --topic test --command-config client.properties`
+
+To produce a single message:
+
+`echo "Hello, World!" | kafka_2.12-2.3.0/bin/kafka-console-producer.sh --broker-list kafka.example.org:32400,kafka.example.org:32401,kafka.example.org:32402 --topic test --producer.config client.properties`
+
+To consume the message:
+
+`kafka_2.12-2.3.0/bin/kafka-console-consumer.sh --bootstrap-server kafka.example.org:32400,kafka.example.org:32401,kafka.example.org:32402 --topic test --from-beginning --max-messages 1 --consumer.config client.properties`

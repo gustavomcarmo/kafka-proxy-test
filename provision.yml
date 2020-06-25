@@ -12,6 +12,12 @@
         - docker-compose.yml
         - .ldif
 
+    - name: Replace the advertised endpoint
+      replace:
+        path: docker-compose.yml
+        regexp: 'bootstrap-server-mapping=(.+),(.+),(.+):'
+        replace: 'bootstrap-server-mapping=\1,\2,kafka.example.org:'
+
     - name: Set up the Docker services
       docker_compose:
         project_name: kafka
