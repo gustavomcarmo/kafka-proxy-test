@@ -101,7 +101,7 @@ To list the topics:
 
 To create the test topic:
 
-`kafka_2.12-2.3.0/bin/kafka-topics.sh --create --bootstrap-server kafka.example.org:32400,kafka.example.org:32401,kafka.example.org:32402 --replication-factor 3 --partitions 1 --topic test --command-config client-sasl.properties`
+`kafka_2.12-2.3.0/bin/kafka-topics.sh --create --bootstrap-server kafka.example.org:32400,kafka.example.org:32401,kafka.example.org:32402 --replication-factor 3 --partitions 1 --topic test --command-config client-sasl-ssl.properties`
 
 To produce a single message:
 
