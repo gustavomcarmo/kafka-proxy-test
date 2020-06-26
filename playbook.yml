@@ -1,0 +1,118 @@
+---
+- hosts: default
+  gather_facts: false
+
+  tasks:
+    - name: Copy required files
+      copy:
+        src: "{{ item }}"
+        dest: .
+      loop:
+        - Dockerfile
+        - docker-compose.yml
+        - .ldif
+
+    - name: Replace the advertised endpoint
+      replace:
+        path: docker-compose.yml
+        regexp: 'bootstrap-server-mapping=(.+),(.+),(.+):'
+        replace: 'bootstrap-server-mapping=\1,\2,kafka.example.org:'
+
+    - name: Create the .tls directory
+      file:
+        path: .tls
+        state: directory
+
+    - name: Generate the CA private key
+      openssl_privatekey:
+        path: .tls/ca.pem
+
+    - name: Generate the CA CSR
+      openssl_csr:
+        path: .tls/ca.csr
+        privatekey_path: .tls/ca.pem
+        email_address: gustavomcarmo@example.org
+        common_name: example.org
+        organizational_unit_name: Example
+        organization_name: Esign Consulting
+        locality_name: Lisbon
+        state_or_province_name: Lisbon
+        country_name: PT
+        basic_constraints:
+          - "CA:TRUE"
+
+    - name: Generate the CA certificate
+      openssl_certificate:
+        path: .tls/ca.crt
+        privatekey_path: .tls/ca.pem
+        csr_path: .tls/ca.csr
+        provider: selfsigned
+
+    - name: Fetch the CA certificate
+      fetch:
+        src: .tls/ca.crt
+        dest: ./
+        flat: true
+
+    - name: Generate the Kafka private key
+      openssl_privatekey:
+        path: .tls/kafka.pem
+
+    - name: Generate the Kafka CSR
+      openssl_csr:
+        path: .tls/kafka.csr
+        privatekey_path: .tls/kafka.pem
+        email_address: gustavomcarmo@example.org
+        common_name: kafka.example.org
+        organizational_unit_name: Example
+        organization_name: Esign Consulting
+        locality_name: Lisbon
+        state_or_province_name: Lisbon
+        country_name: PT
+
+    - name: Generate the Kafka certificate
+      openssl_certificate:
+        path: .tls/kafka.crt
+        privatekey_path: .tls/kafka.pem
+        ownca_path: .tls/ca.crt
+        ownca_privatekey_path: .tls/ca.pem
+        csr_path: .tls/kafka.csr
+        provider: ownca
+
+    - name: Remove the comments
+      replace:
+        path: docker-compose.yml
+        regexp: '# '
+        replace: ''
+
+    - name: Set up the Docker services
+      docker_compose:
+        project_name: kafka
+        project_src: .
+        state: present
+      become: true
+
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: Copy the system Java cacerts file to use as the Kafka client truststore
+      copy:
+        src: /etc/ssl/certs/java/cacerts
+        dest: /tmp/kafka.client.truststore.jks
+        remote_src: True
+
+    - name: Import the Kafka CA certificate into the Kafka client truststore
+      java_cert:
+        cert_path: ca.crt
+        cert_alias: kafka-ca
+        keystore_path: /tmp/kafka.client.truststore.jks
+        keystore_pass : changeit
+
+    - name: Create the Kafka client properties file
+      copy:
+        dest: client-sasl-ssl.properties
+        content: |
+          security.protocol=SASL_SSL
+          ssl.truststore.location=/tmp/kafka.client.truststore.jks
+          sasl.mechanism=PLAIN

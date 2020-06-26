@@ -57,6 +57,8 @@ services:
       - 32400:32400
       - 32401:32401
       - 32402:32402
+    # volumes:
+    #   - .tls:/.tls
     command:
       - server
       - --bootstrap-server-mapping=kafka-0:9092,0.0.0.0:32400,localhost:32400
@@ -69,10 +71,14 @@ services:
       - --auth-local-param=--url=ldap://openldap:389
       - --auth-local-param=--user-dn=ou=people,dc=example,dc=org
       - --auth-local-param=--user-attr=cn
+      # - --proxy-listener-tls-enable
+      # - --proxy-listener-key-file=/.tls/kafka.pem
+      # - --proxy-listener-cert-file=/.tls/kafka.crt
     depends_on:
       - kafka-0
       - kafka-1
       - kafka-2
+      - openldap
 
   openldap:
     image: osixia/openldap

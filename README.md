@@ -56,7 +56,7 @@ Set the `java.security.auth.login.config` property:
 
 To produce a single message:
 
-`echo "Hello, World!" | kafka_2.12-2.5.0/bin/kafka-console-producer.sh --bootstrap-server localhost:32400,localhost:32401,localhost:32402 --producer.config client.properties --topic test`
+`echo "Hello, World!" | kafka_2.12-2.5.0/bin/kafka-console-producer.sh --bootstrap-server localhost:32400,localhost:32401,localhost:32402 --producer.config client-sasl.properties --topic test`
 
 Current error in Kafka client:
 
@@ -77,36 +77,36 @@ time="2020-06-23T14:19:00Z" level=info msg="Reading data from local connection o
 
 To list the topics:
 
-`kafka_2.12-2.3.0/bin/kafka-topics.sh --list --bootstrap-server localhost:32400,localhost:32401,localhost:32402 --command-config client.properties`
+`kafka_2.12-2.3.0/bin/kafka-topics.sh --list --bootstrap-server localhost:32400,localhost:32401,localhost:32402 --command-config client-sasl.properties`
 
 To create the test topic:
 
-`kafka_2.12-2.3.0/bin/kafka-topics.sh --create --bootstrap-server localhost:32400,localhost:32401,localhost:32402 --replication-factor 3 --partitions 1 --topic test --command-config client.properties`
+`kafka_2.12-2.3.0/bin/kafka-topics.sh --create --bootstrap-server localhost:32400,localhost:32401,localhost:32402 --replication-factor 3 --partitions 1 --topic test --command-config client-sasl.properties`
 
 To produce a single message:
 
-`echo "Hello, World!" | kafka_2.12-2.3.0/bin/kafka-console-producer.sh --broker-list localhost:32400,localhost:32401,localhost:32402 --topic test --producer.config client.properties`
+`echo "Hello, World!" | kafka_2.12-2.3.0/bin/kafka-console-producer.sh --broker-list localhost:32400,localhost:32401,localhost:32402 --topic test --producer.config client-sasl.properties`
 
 To consume the message:
 
-`kafka_2.12-2.3.0/bin/kafka-console-consumer.sh --bootstrap-server localhost:32400,localhost:32401,localhost:32402 --topic test --from-beginning --max-messages 1 --consumer.config client.properties`
+`kafka_2.12-2.3.0/bin/kafka-console-consumer.sh --bootstrap-server localhost:32400,localhost:32401,localhost:32402 --topic test --from-beginning --max-messages 1 --consumer.config client-sasl.properties`
 
-##### LDAP auth test using Kafka client 2.3.0 against VM
+##### LDAP auth/TLS termination test using Kafka client 2.3.0 against VM
 
 `vagrant up`
 
 To list the topics:
 
-`kafka_2.12-2.3.0/bin/kafka-topics.sh --list --bootstrap-server kafka.example.org:32400,kafka.example.org:32401,kafka.example.org:32402 --command-config client.properties`
+`kafka_2.12-2.3.0/bin/kafka-topics.sh --list --bootstrap-server kafka.example.org:32400,kafka.example.org:32401,kafka.example.org:32402 --command-config client-sasl-ssl.properties`
 
 To create the test topic:
 
-`kafka_2.12-2.3.0/bin/kafka-topics.sh --create --bootstrap-server kafka.example.org:32400,kafka.example.org:32401,kafka.example.org:32402 --replication-factor 3 --partitions 1 --topic test --command-config client.properties`
+`kafka_2.12-2.3.0/bin/kafka-topics.sh --create --bootstrap-server kafka.example.org:32400,kafka.example.org:32401,kafka.example.org:32402 --replication-factor 3 --partitions 1 --topic test --command-config client-sasl.properties`
 
 To produce a single message:
 
-`echo "Hello, World!" | kafka_2.12-2.3.0/bin/kafka-console-producer.sh --broker-list kafka.example.org:32400,kafka.example.org:32401,kafka.example.org:32402 --topic test --producer.config client.properties`
+`echo "Hello, World!" | kafka_2.12-2.3.0/bin/kafka-console-producer.sh --broker-list kafka.example.org:32400,kafka.example.org:32401,kafka.example.org:32402 --topic test --producer.config client-sasl-ssl.properties`
 
 To consume the message:
 
-`kafka_2.12-2.3.0/bin/kafka-console-consumer.sh --bootstrap-server kafka.example.org:32400,kafka.example.org:32401,kafka.example.org:32402 --topic test --from-beginning --max-messages 1 --consumer.config client.properties`
+`kafka_2.12-2.3.0/bin/kafka-console-consumer.sh --bootstrap-server kafka.example.org:32400,kafka.example.org:32401,kafka.example.org:32402 --topic test --from-beginning --max-messages 1 --consumer.config client-sasl-ssl.properties`
