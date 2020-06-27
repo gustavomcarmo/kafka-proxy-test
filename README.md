@@ -2,6 +2,24 @@
 
 [kafka-proxy](https://github.com/grepplabs/kafka-proxy) test project.
 
+## Requirements
+
+For setting up the local Kafka environment (localhost):
+
+- [Docker](https://www.docker.com)
+- [Docker Compose](https://docs.docker.com/compose)
+
+For testing:
+
+- [JDK 1.8](https://openjdk.java.net)
+- Java client embedded in [Kafka](https://kafka.apache.org)
+
+For bootstraping a local Kafka VM (kafka.example.org):
+
+- [Virtual Box](https://www.virtualbox.org)
+- [Vagrant](https://www.vagrantup.com)
+- [Ansible](https://www.ansible.com)
+
 ## Setup
 
 `docker-compose up -d`
