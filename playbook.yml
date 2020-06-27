@@ -16,7 +16,7 @@
       replace:
         path: docker-compose.yml
         regexp: 'bootstrap-server-mapping=(.+),(.+),(.+):'
-        replace: 'bootstrap-server-mapping=\1,\2,kafka.example.org:'
+        replace: 'bootstrap-server-mapping=\1,\2,192.168.33.10:'
 
     - name: Create the .tls directory
       file:
@@ -69,6 +69,9 @@
         locality_name: Lisbon
         state_or_province_name: Lisbon
         country_name: PT
+        subject_alt_name:
+          - DNS:kafka.example.org
+          - IP:192.168.33.10
 
     - name: Generate the Kafka certificate
       openssl_certificate:

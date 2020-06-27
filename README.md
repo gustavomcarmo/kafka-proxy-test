@@ -128,3 +128,5 @@ To produce a single message:
 To consume the message:
 
 `kafka_2.12-2.3.0/bin/kafka-console-consumer.sh --bootstrap-server kafka.example.org:32400,kafka.example.org:32401,kafka.example.org:32402 --topic test --from-beginning --max-messages 1 --consumer.config client-sasl-ssl.properties`
+
+:information_source: You can use `192.168.33.10` instead of `kafka.example.org`.
