@@ -96,6 +96,8 @@ To consume the message:
 
 `kafka_2.12-2.5.0/bin/kafka-console-consumer.sh --bootstrap-server localhost:32400,localhost:32401,localhost:32402 --topic test --from-beginning --max-messages 1 --consumer.config client-sasl.properties`
 
+:information_source: Alternatively, you can run `./test.sh`.
+
 ### LDAP auth/TLS termination test
 
 `vagrant up`
