@@ -31,9 +31,10 @@ Comment in [docker-compose.yml](docker-compose.yml):
 ```yml
       # - --auth-local-enable
       # - --auth-local-command=/auth-ldap
+      # - --auth-local-param=--start-tls=false
       # - --auth-local-param=--url=ldap://openldap:389
       # - --auth-local-param=--user-dn=ou=people,dc=example,dc=org
-      # - --auth-local-param=--user-attr=uid
+      # - --auth-local-param=--user-attr=cn
 ```
 
 Then:
@@ -63,9 +64,10 @@ Uncomment in [docker-compose.yml](docker-compose.yml):
 ```yml
       - --auth-local-enable
       - --auth-local-command=/auth-ldap
+      - --auth-local-param=--start-tls=false
       - --auth-local-param=--url=ldap://openldap:389
       - --auth-local-param=--user-dn=ou=people,dc=example,dc=org
-      - --auth-local-param=--user-attr=uid
+      - --auth-local-param=--user-attr=cn
 ```
 
 Then:
