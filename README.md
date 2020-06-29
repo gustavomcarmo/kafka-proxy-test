@@ -1,6 +1,6 @@
 # kafka-proxy-test
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Build status](https://travis-ci.org/gustavomcarmo/kafka-proxy-test.svg?branch=master)](https://travis-ci.org/gustavomcarmo/kafka-proxy-test)
 
 [kafka-proxy](https://github.com/grepplabs/kafka-proxy) test project.
 
