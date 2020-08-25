@@ -35,8 +35,10 @@ Comment in [docker-compose.yml](docker-compose.yml):
       # - --auth-local-command=/auth-ldap
       # - --auth-local-param=--start-tls=false
       # - --auth-local-param=--url=ldap://openldap:389
-      # - --auth-local-param=--user-dn=ou=people,dc=example,dc=org
-      # - --auth-local-param=--user-attr=cn
+      # - --auth-local-param=--bind-dn=cn=admin,dc=example,dc=org
+      # - --auth-local-param=--bind-passwd=admin
+      # - --auth-local-param=--user-search-base=ou=people,dc=example,dc=org
+      # - --auth-local-param=--user-filter=(&(objectClass=inetOrgPerson)(uid=%u)(memberOf=cn=kafka-users,ou=groups,dc=example,dc=org))
 ```
 
 Then:
@@ -68,8 +70,10 @@ Uncomment in [docker-compose.yml](docker-compose.yml):
       - --auth-local-command=/auth-ldap
       - --auth-local-param=--start-tls=false
       - --auth-local-param=--url=ldap://openldap:389
-      - --auth-local-param=--user-dn=ou=people,dc=example,dc=org
-      - --auth-local-param=--user-attr=cn
+      - --auth-local-param=--bind-dn=cn=admin,dc=example,dc=org
+      - --auth-local-param=--bind-passwd=admin
+      - --auth-local-param=--user-search-base=ou=people,dc=example,dc=org
+      - --auth-local-param=--user-filter=(&(objectClass=inetOrgPerson)(uid=%u)(memberOf=cn=kafka-users,ou=groups,dc=example,dc=org))
 ```
 
 Then:
