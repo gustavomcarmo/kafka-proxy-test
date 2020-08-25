@@ -18,3 +18,30 @@ loginShell: /bin/sh
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
+
+dn: cn=jacksp,ou=people,dc=example,dc=org
+givenName: Jack
+sn: Sparrow
+cn: jacksp
+uid: jacksp
+userPassword: Bl@ckPe@rl
+mail: jacksp@example.org
+l: London
+st: GB
+gidNumber: 5000
+uidNumber: 10001
+homeDirectory: /home/users/jacksp
+loginShell: /bin/sh
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+
+dn: ou=groups,dc=example,dc=org
+objectClass: organizationalUnit
+ou: Groups
+
+dn: cn=kafka-users,ou=groups,dc=example,dc=org
+cn: kafka-users
+objectClass: groupOfUniqueNames
+objectClass: top
+uniqueMember: cn=gustavomcarmo,ou=people,dc=example,dc=org

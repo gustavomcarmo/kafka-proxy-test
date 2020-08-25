@@ -66,8 +66,10 @@ services:
       - --auth-local-command=/auth-ldap
       - --auth-local-param=--start-tls=false
       - --auth-local-param=--url=ldap://openldap:389
-      - --auth-local-param=--user-dn=ou=people,dc=example,dc=org
-      - --auth-local-param=--user-attr=cn
+      - --auth-local-param=--bind-dn=cn=admin,dc=example,dc=org
+      - --auth-local-param=--bind-passwd=admin
+      - --auth-local-param=--user-search-base=ou=people,dc=example,dc=org
+      - --auth-local-param=--user-filter=(&(objectClass=inetOrgPerson)(uid=%u)(memberOf=cn=kafka-users,ou=groups,dc=example,dc=org))
       # - --proxy-listener-tls-enable
       # - --proxy-listener-key-file=/.tls/kafka.pem
       # - --proxy-listener-cert-file=/.tls/kafka.crt
@@ -85,6 +87,17 @@ services:
     environment:
       - LDAP_SEED_INTERNAL_LDIF_PATH=/.ldif
       - LDAP_TLS=false
+
+  ldapadmin:
+    image: osixia/phpldapadmin:0.9.0
+    container_name: ldapadmin
+    environment:
+      - PHPLDAPADMIN_LDAP_HOSTS=openldap
+      - PHPLDAPADMIN_HTTPS=false
+    ports:
+      - 8080:80
+    depends_on:
+      - openldap
 
 volumes:
   zookeeper_data:
